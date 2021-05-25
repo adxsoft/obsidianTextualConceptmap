@@ -1,0 +1,164 @@
+<html>
+    <h3>Textual Concept Map</h3>
+
+ <b>Concept as node from // link type // node to<b><br><i>Refresh page when changed</i><br>
+    <textarea id="myTextarea" rows="21" cols="100">
+        Climate Change // is a // Force Of Nature
+        Force of Nature // affects // Climate Change
+        Nature // reacts to // Climate Change
+        Climate Change // is caused by // Natural Causes
+        Natural Causes // are a // Force of Nature
+        Climate Change // is caused by // Human Activities
+        Human Activities // such as // Population Increase
+        Human Activities // such as // Burning Fossil Fuels
+        Rising Sea Levels // are evidence for // Climate Change
+        Melting Ice Caps // are evidence for // Climate Change
+        Warming Oceans // are evidence for // Climate Change
+        Warming Oceans // impact // Animal Habitat
+        Climate Change // can be managed by // Changing Behavior
+        Climate Change // can be managed by // Environmental Policies
+        Environmental Policies // such as // Carbon Taxes
+        Environmental Policies // such as // Political Sanctions
+        Climate Change // should be further // Researched
+        Changing Behavior // such as // Recycling
+        Changing Behavior // will assist // Carbon Reduction
+        Carbon Reduction // will stop // Melting Ice Caps
+        Recycling // hinders // Carbon Reduction
+    </textarea>
+    <p>
+    <b>Generated Obsidian Markdown </b><i>cut and paste a new Obsidian Note</i><br>
+    
+    <textarea id="resultTextarea" rows="20" cols="100">
+    </textarea>
+    
+    
+    <head>
+        <script>
+            // Main
+            var concepts = document.getElementById("myTextarea").value;
+            var lines = concepts.split("\n");
+            var output_lines = [];
+            
+            nodes = [];
+            for (let index = 0; index < lines.length; index++) {
+                var line = lines[index];
+                
+                if (line == "") continue;
+
+                var chunks = line.split(" // ");
+            nodeLine = "- $NODENAME";
+            linkLine = "> - $LINKTYPE [[#^$BLOCKREF|$NODENAME]]"
+            linkLine_unknown_node = "> - $LINKTYPE *$NODENAME*"
+            blockref = "^$NODENAMELOWERCASE"
+            
+            if (chunks.length == 3) {
+                for (let j = 0; j < chunks.length; j++) {
+                    if (j == 0) {nodeFrom = chunks[j];}
+                    if (j == 1) {linkForward = chunks[j];}
+                    if (j == 1) {linkBackward = chunks[j];}
+                    if (j == 2) {nodeTo = chunks[j];}
+                    if (j == 2) {
+                        nodes.push(
+                            {
+                                "nodefrom":nodeFrom,
+                                "link":linkForward,
+                                "nodeto":nodeTo
+                            }
+                            );
+                            // nodes.push(
+                                //     {
+                                    //         "nodefrom":nodeTo,
+                                    //         "link":linkForward,
+                                    //         "nodeto":nodeFrom
+                                    //     }
+                                    // );
+                                }
+                            }
+                        }
+                    }
+                    
+                    
+                    // create node index
+                    var nodenames=[];
+                    for (let index = 0; index < nodes.length; index++) {
+                        nodenames.push(nodes[index]["nodefrom"]);
+            //  
+        }
+        let unique_nodenames = [...new Set(nodenames)];
+        
+        
+        nodes.sort((a,b) => (a.nodefrom > b.nodefrom) ? 1 : ((b.nodefrom > a.nodefrom) ? -1 : 0))
+
+        // process nodes for output
+        outputLines = ""
+        var first = true
+        var lastnodefrom = ""
+        
+        for (let index = 0; index < nodes.length; index++) {
+            
+            var nodeFrom = nodes[index]["nodefrom"].trim();
+            var linkType = nodes[index]["link"].trim();
+            var nodeTo = nodes[index]["nodeto"].trim();
+            
+            var lastNodeFromLowercase = lastnodefrom.toLowerCase().replace(/ /g,"");
+            var nodeFromLowercase = nodeFrom.toLowerCase().replace(/ /g,"");
+            var nodeToLowercase = nodeTo.toLowerCase().replace(/ /g,"");
+            
+            if (nodeFrom != lastnodefrom) {
+                if (first == true) {
+                    first = false
+                } else {
+                    outputLines += "\n"+blockref
+                    .replace("$NODENAMELOWERCASE",lastNodeFromLowercase)
+                    .replace(" ","")
+                    +"\n\n";
+                }
+                
+                outputLines += nodeLine
+                .replace("$NODENAME",nodeFrom)
+                +"\n";
+                
+                if (nodenames.indexOf(nodeTo) == -1) {
+                    outputLines += linkLine_unknown_node
+                    .replace("$LINKTYPE",linkType)
+                    .replace("$NODENAME",nodeTo)
+                    .replace(" ","")
+                    +"\n";
+                } else {
+                    outputLines += linkLine
+                    .replace("$LINKTYPE",linkType)
+                    .replace("$BLOCKREF",nodeToLowercase)
+                    .replace("$NODENAME",nodeTo)
+                        .replace(" ","")+"\n";
+                    }
+                }
+                
+                
+                if (nodeFrom == lastnodefrom) {
+                    if (nodenames.indexOf(nodeTo) == -1) {
+                        outputLines += linkLine_unknown_node
+                        .replace("$LINKTYPE",linkType)
+                        .replace("$NODENAME",nodeTo)
+                        +"\n";
+                    } else {
+                        outputLines += linkLine
+                        .replace("$LINKTYPE",linkType)
+                        .replace("$BLOCKREF",nodeToLowercase)
+                        .replace("$NODENAME",nodeTo)+"\n";
+                    }
+                }
+                
+                // if (index == nodes.length) {
+                    //     outputLines += "\n"+blockref.replace("$NODENAMELOWERCASE",nodeFromLowercase).replace(" ","")+"\n\n";
+                    // }
+                    
+                    
+                    lastnodefrom = nodeFrom
+                }
+                document.getElementById("resultTextarea").value = outputLines;
+                
+                </script>
+</head>
+<body>
+</body>
+</html>
