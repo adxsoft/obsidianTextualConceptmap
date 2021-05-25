@@ -54,6 +54,8 @@ Each node from is formatted as follows (note the blank lines)
 
 ```
 
+See the video file **Textual Concept Map in Single Note.mp4** in this repository to see single note created for obsidian/
+
 
 
 
