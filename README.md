@@ -54,7 +54,9 @@ Each node from is formatted as follows (note the blank lines)
 
 ```
 
-See the video file **Textual Concept Map in Single Note.mp4** in this repository to see single note created for obsidian/
+See the video file **Textual Concept Map in Single Note.mp4** in this repository to see single note created for obsidian.
+
+The file **Textual Concept Map.md** contained the generated Markdown text you can copy and paste into your Obsidian Vault.
 
 
 
