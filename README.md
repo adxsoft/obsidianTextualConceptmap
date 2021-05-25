@@ -1,4 +1,4 @@
-# obsidiantextualconceptmap
+# Obsidian Textual Conceptmap
 
 Objective is to have a simple concept map in text form within one Obsidian Note that uses the power of hovering over Obsidian links and seeing other blocks.
 
